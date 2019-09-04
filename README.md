@@ -23,7 +23,7 @@ Table of Contents
 	-	[Brokers](#brokers)
 	-	[Topics](#topics)
 	-	[Consumer Groups](#consumer-groups)
--	[Grafana Dashboard](#grafana-dashboard)	
+-	[Grafana Dashboard](#grafana-dashboard)
 -   [Contribute](#contribute)
 -   [Donation](#donation)
 -   [License](#license)
@@ -224,18 +224,12 @@ For details of the dashboard please see [Kafka Exporter Overview](https://grafan
 Contribute
 ----------
 
-If you like Kafka Exporter, please give me a star. This will help more people know Kafka Exporter.
+If you like Kafka Exporter, give it a star or share it with your friends.
 
-Please feel free to send me [pull requests](https://github.com/danielqsj/kafka_exporter/pulls).
+Please feel free to send me [pull requests](https://github.com/sysadmind/kafka_exporter/pulls).
 
-Donation
---------
-
-Your donation will encourage me to continue to improve Kafka Exporter. Support Alipay donation.
-
-![](https://github.com/danielqsj/kafka_exporter/raw/master/alipay.jpg)
 
 License
 -------
 
-Code is licensed under the [Apache License 2.0](https://github.com/danielqsj/kafka_exporter/blob/master/LICENSE).
+Code is licensed under the [Apache License 2.0](https://github.com/sysadmind/kafka_exporter/blob/master/LICENSE).
