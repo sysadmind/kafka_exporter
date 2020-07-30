@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"regexp"
+	"strings"
 	"sync"
 	"time"
 
@@ -59,6 +60,7 @@ type kafkaOpts struct {
 	useSASLHandshake         bool
 	saslUsername             string
 	saslPassword             string
+	saslMechanism            string
 	useTLS                   bool
 	tlsCAFile                string
 	tlsCertFile              string
@@ -118,6 +120,21 @@ func NewExporter(opts kafkaOpts, topicFilter string, groupFilter string) (*Expor
 	config.Version = kafkaVersion
 
 	if opts.useSASL {
+		// Convert to lowercase so that SHA512 and SHA256 is still valid
+		opts.saslMechanism = strings.ToLower(opts.saslMechanism)
+		switch opts.saslMechanism {
+		case "scram-sha512":
+			config.Net.SASL.SCRAMClientGeneratorFunc = func() sarama.SCRAMClient { return &XDGSCRAMClient{HashGeneratorFcn: SHA512} }
+			config.Net.SASL.Mechanism = sarama.SASLMechanism(sarama.SASLTypeSCRAMSHA512)
+		case "scram-sha256":
+			config.Net.SASL.SCRAMClientGeneratorFunc = func() sarama.SCRAMClient { return &XDGSCRAMClient{HashGeneratorFcn: SHA256} }
+			config.Net.SASL.Mechanism = sarama.SASLMechanism(sarama.SASLTypeSCRAMSHA256)
+
+		case "plain":
+		default:
+			plog.Fatalf("invalid sasl mechanism \"%s\": can only be \"scram-sha256\", \"scram-sha512\" or \"plain\"", opts.saslMechanism)
+		}
+
 		config.Net.SASL.Enable = true
 		config.Net.SASL.Handshake = opts.useSASLHandshake
 
